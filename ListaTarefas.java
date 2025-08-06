@@ -20,7 +20,7 @@ public class ListaTarefas {
             }
             System.out.println("-------------------------------------------------------");
             System.out.println("Digite o número da tarefa finalizada por você");
-            System.out.println("[Digite 0 para sair do probrama]: ");
+            System.out.println("[Digite 0 para sair do programa]: ");
             System.out.println();
             System.out.print("Opção: ");
             int num = entrada.nextInt();

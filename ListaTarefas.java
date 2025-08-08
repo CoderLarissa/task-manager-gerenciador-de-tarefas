@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class ListaTarefas {
@@ -34,9 +37,33 @@ public class ListaTarefas {
                 break;
             }
             concluido[num - 1] = "[X]";
+            entrada.nextLine();
+            while (true) {
+                dataEHoraConclusao();
+                System.out.println("-------------------------------------------------------");
+                System.out.print("Digite 's' para sair: ");
+                String sair = entrada.nextLine();
+                if (sair.equalsIgnoreCase("s")) {
+                    break;
+                }
+                  
+            }
+
+          
 
         }       
 
+    }
+
+    public static void dataEHoraConclusao() {
+        DateTimeFormatter data = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter horario = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDate dataAgora = LocalDate.now();
+        LocalTime horarioAgora = LocalTime.now();
+        String dataFormatada = data.format(dataAgora);
+        String horarioFormado = horario.format(horarioAgora);
+        System.out.println("Data de conclusão da tarefa: " + dataFormatada);
+        System.out.println("Horário de conclusão da tarefa: " + horarioFormado);
     }
     
 }

@@ -1,6 +1,4 @@
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ListaTarefas {
@@ -12,58 +10,70 @@ public class ListaTarefas {
 
 
     public static void tarefas() {
-        Scanner entrada = new Scanner(System.in);
-        String[] concluido = {"[ ]", "[ ]", "[ ]"};
-        String[] tarefas = {"Ler um livro", "Estudar matemática", "Beber água"};
-        String[] numero = {"1.", "2.", "3."};
-        while (true) {
-            System.out.println(" ----- LISTA DE TAREFAS ----- ");
-            for (int i = 0; i < tarefas.length; i++) {
-                System.out.println(numero[i] + " " + concluido[i] + " " + tarefas[i]);
-            }
-            System.out.println("-------------------------------------------------------");
-            System.out.println("Digite o número da tarefa finalizada por você");
-            System.out.println("[Digite 0 para sair do programa]: ");
-            System.out.println();
-            System.out.print("Opção: ");
-            int num = entrada.nextInt();
-            if (num < 0 || num > concluido.length) {
-                System.out.println("Entrada inválida!\nDigite um dos números da lista");
-                continue;
-            }
-            System.out.println("-------------------------------------------------------");
-            if (num == 0) {
-                System.out.println("Encerrando programa...\nVolte sempre :)");
-                break;
-            }
-            concluido[num - 1] = "[X]";
-            entrada.nextLine();
-            while (true) {
-                dataEHoraConclusao();
-                System.out.println("-------------------------------------------------------");
-                System.out.print("Digite 's' para sair: ");
-                String sair = entrada.nextLine();
-                if (sair.equalsIgnoreCase("s")) {
+        ArrayList <ListaTarefasModelo> listaTarefas = new ArrayList<>();
+            Scanner teclado = new Scanner(System.in);
+            System.out.println(" ------------------------- AGENDA -------------------- ");
+            while (listaTarefas.isEmpty()) {
+                System.out.println("Insira 1 para criar sua primeira tarefa ou digite 0 para sair: ");
+                System.out.print("> ");
+                String entrada = teclado.nextLine();
+                if (entrada.equals("0")) {
                     break;
                 }
-                  
-            }
-
+                else if (entrada.equals("1")) {
+                    System.out.println("Tarefa: ");
+                    System.out.print("> ");
+                    entrada = teclado.nextLine();
+                    ListaTarefasModelo listaTarefasModelo = new ListaTarefasModelo();
+                    listaTarefasModelo.setTarefa(entrada);
+                    listaTarefas.add(listaTarefasModelo);
+                }
           
+            }
+            while (true) {
+                System.out.println("---------------- DIGITE O NÚMERO RELATIVO À OPÇÃO DESEJADA POR VOCÊ ------------------------");
+                System.out.println("0. Sair");
+                System.out.println("1. Adicionar Tarefa");
+                System.out.println("2. Tarefas adicionadas");
+                System.out.print("> ");
+                String opc = teclado.nextLine();
+                System.out.println("--------------------------------------------------------------------------------------------");
 
-        }       
+                switch (opc) {
+                    case "1":
+                        System.out.println("Tarefa: ");
+                        System.out.print("> ");
+                        opc = teclado.nextLine();
+                        ListaTarefasModelo listaTarefasModelo = new ListaTarefasModelo();
+                        listaTarefasModelo.setTarefa(opc);
+                        listaTarefas.add(listaTarefasModelo);
+                        break;
 
-    }
+                    case "2":
+                        while (true) {
+                            for (ListaTarefasModelo itens : listaTarefas) {
+                                System.out.printf("%d. %s %s%n", itens.getNum_Tarefa(), itens.getCheck_Finalizacao(), itens.getTarefa());
+                            }
+                            System.out.println("Digite a letra s para sair: ");
+                            System.out.print("> ");
+                            opc = teclado.nextLine();
+                            if (opc.equalsIgnoreCase("s")) {
+                                break;
+                            }
+                        }
+                        break;
 
-    public static void dataEHoraConclusao() {
-        DateTimeFormatter data = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DateTimeFormatter horario = DateTimeFormatter.ofPattern("HH:mm");
-        LocalDate dataAgora = LocalDate.now();
-        LocalTime horarioAgora = LocalTime.now();
-        String dataFormatada = data.format(dataAgora);
-        String horarioFormado = horario.format(horarioAgora);
-        System.out.println("Data de conclusão da tarefa: " + dataFormatada);
-        System.out.println("Horário de conclusão da tarefa: " + horarioFormado);
+                    default:
+                        System.out.println("Opção inválida!");
+                        break;
+
+                }
+                if (opc.equals("0")) {
+                    System.out.println("Volte sempre!");
+                    break;
+
+                }
+            }
     }
     
 }
